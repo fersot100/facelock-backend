@@ -17,12 +17,12 @@ var db = {};
 
 db.user = sequelize.import(__dirname + '/models/user.js');
 db.site = sequelize.import(__dirname + '/models/site.js');
-db.face = sequelize.import(__dirname + '/models/face.js');
+db.faceId = sequelize.import(__dirname + '/models/faceId.js');
 
 db.site.belongsTo(db.user);
-db.face.belongsTo(db.user);
+db.faceId.belongsTo(db.user);
 
 db.user.hasMany(db.site);
-db.user.hasMany(db.face);
+db.user.hasMany(db.faceId);
 
 module.exports = db;
