@@ -33,6 +33,8 @@ app.get('/login', function(req, res){
  		} else {
  			res.json("Wrong password");
  		}
+ 	}, function	(e) {
+ 		res.json(e);
  	});
 });	
 
