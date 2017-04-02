@@ -17,7 +17,6 @@ app.post('/users', function(req,res) {
 	db.user.create(user).then(function (user) {
 		userId = user.get('id');
 		db.site.create_sites(sites, userId).then(function(){
-			console.log("It hits!");
 			db.faceId.create_faceIds(faceIds, userId).then(function(){
 				res.json(user.toJSON());
 			},function(err) {
@@ -34,6 +33,43 @@ app.post('/users', function(req,res) {
 	});
 });
 
+app.put('/users/sites/:id', function(user) {
+	var user = _.pick(req.body, 'name' , 'email', 'password', 'pi', 'pgi');	
+	var sites = _.pick(req.body, 'sites').sites;
+	var faceIds = _.pick(req.body, 'faceIds').faceIds;
+	var userId = parseInt(req.params.id, 10);
+
+	var attributes = {};
+	var appendants = {};
+
+	if (user.hasOwnProperty('name')) {
+		attributes.name = user.name;
+	}
+	if (user.hasOwnProperty('email')) {
+		attributes.email = user.email;
+	}
+	if (user.hasOwnProperty('password')) {
+		attributes.password = user.password;
+	}
+
+	if (user.hasOwnProperty('sites')) {
+		appendants.sites = user.sites;
+	}
+	if (user.hasOwnProperty('faceIds')) {
+		appendants.faceIds = user.faceIds;
+	}
+
+	db.user.findOne({
+		where: {
+			id: userId,
+		}
+	}).then(function(user){
+		if(user) {
+			user.update()
+		}
+	})
+
+});
 
 db.sequelize.sync({
 	force: true
