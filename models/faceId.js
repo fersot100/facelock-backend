@@ -1,7 +1,10 @@
 //Declares faceId model as a string
 module.exports = function (sequelize, DataTypes) {
-	var faceId = sequelize.define('faceId' , {
-		type: DataTypes.STRING,
+	var face = sequelize.define('faceId' , {
+		faceId: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		}
 	}, {
 		classMethods: {
 
@@ -25,5 +28,5 @@ module.exports = function (sequelize, DataTypes) {
 			}
 		}
 	});
-	return faceId;
+	return face;
 }
