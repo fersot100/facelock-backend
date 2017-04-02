@@ -19,14 +19,15 @@ module.exports = function(sequelize, DataTypes) {
 		}
 	}, {
 		classMethods: {
-			create_sites: function (sites, userId) {
+			create_sites: function (sites, uid) {
 				var _this = this;
 				var result = [];
 				var Promises = sites.map(function(site){
 					return _this.create({
 						url: site.url,
 						name: site.name,
-						password: site.password
+						password: site.password,
+						userId: uid
 					}).then(function() {
 						result.push({
 							site: site,

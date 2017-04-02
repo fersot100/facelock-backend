@@ -7,18 +7,20 @@ module.exports = function (sequelize, DataTypes) {
 		}
 	}, {
 		classMethods: {
-
-			create_faceIds: function(faces, userId) {
+			create_faceIds: function(faces, uid) {
 				var _this = this;
 				var result = [];
-				var Promises = faces.map(function(faceId){
-					return _this.create(faceId).then(function(){
-						result.push({faceId : faceId, success: true});
-						user.addFaceId(faceId).then(function() {
+				var Promises = faces.map(function(face){
+					return _this.create({
+						faceId : face, 
+						userId : uid
+					}).then(function(){
+						result.push({faceId : face, success: true});
+						user.addFaceId(face).then(function() {
 							return user.reload();
 						});
 					}).catch(function(err) {
-						result.push({faceId : faceId, success: false});
+						result.push({faceId : face, success: false});
 						return Promise.resolve();
 					});
 				});
