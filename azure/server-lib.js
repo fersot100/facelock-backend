@@ -25,3 +25,6 @@ newUser(name, email, pass, personId, PersonGroupId, sites, faceIds){
         });
     }
 }
+login() {
+    
+}
