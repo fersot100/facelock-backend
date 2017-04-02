@@ -51,7 +51,6 @@ app.put('/users/sites/:id', function(req, res) {
 	if (user.hasOwnProperty('password')) {
 		attributes.password = user.password;
 	}
-
 	if (user.hasOwnProperty('sites')) {
 		appendants.sites = user.sites;
 	}
@@ -82,7 +81,6 @@ app.put('/users/sites/:id', function(req, res) {
 			res.status(404);
 		}
 	})
-
 });
 
 app.get("/users", function(req, res) {
@@ -94,7 +92,7 @@ app.get("/users", function(req, res) {
 });
 
 db.sequelize.sync({
-	force: true
+	force: false
 }).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
