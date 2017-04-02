@@ -9,7 +9,7 @@ if (env === 'production') {
 } else {
     sequelize = new Sequelize(undefined, undefined, undefined, {
         'dialect': 'sqlite',
-        'storage': __dirname + '/data/dev-todo-api.sqlite'
+        'storage': __dirname + '/data/facelock.sqlite'
     });
 }
 
@@ -24,5 +24,9 @@ db.faceId.belongsTo(db.user);
 
 db.user.hasMany(db.site);
 db.user.hasMany(db.faceId);
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
 
 module.exports = db;

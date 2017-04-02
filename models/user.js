@@ -9,6 +9,11 @@ module.exports = function (sequelize, DataTypes) {
 				len: [6,254]
 			}
 		},
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: false
+		},
 		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -16,6 +21,7 @@ module.exports = function (sequelize, DataTypes) {
 				len: [7, 100]
 			}
 		}
+
 	});
 	return user;	
 };
