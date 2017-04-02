@@ -10,6 +10,18 @@ var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+app.get('/login', function(req, res){
+	var userId = _.pick(req.body, 'userId');
+	var password = _.pick(req.body, 'password');
+	db.user.findOne({where: user.id == userId}).then(function(user) {
+ 		if (user.password == password) {
+ 			res.json(user);
+ 		} else {
+ 			res.json("Wrong password");
+ 		}
+ 	});
+});	
+
 app.post('/users', function(req,res) {
 	var user = _.pick(req.body, 'name' , 'email', 'password', 'pi', 'pgi');	
 	var sites = _.pick(req.body, 'sites').sites;
