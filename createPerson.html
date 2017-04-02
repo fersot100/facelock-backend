@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSSample</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    //Modify these variable with their corresponding values
+    var name;
+    var userId;
+    //***************************************************
+    $(function() {
+        var params = {
+            // Request parameters
+            "personGroupId" : "hackathon_demo"
+        };
+      
+        $.ajax({
+            url: "https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{personGroupId}/persons?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","9dd5ea344b5547da90cb0257a43818d7");
+            },
+            type: "POST",
+            // Request body
+            data: "{name: " + name  "," "userData: " + userId "}"
+        })
+        .done(function(data) {
+            alert("success");
+        })
+        .fail(function() {
+            alert("error");
+        });
+    });
+</script>
+</body>
+</html>
+

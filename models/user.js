@@ -20,6 +20,12 @@ module.exports = function (sequelize, DataTypes) {
 			validate: {
 				len: [7, 100]
 			}
+		},
+		pi: {
+			type: DataTypes.STRING
+		},
+		pgi: {
+			type: DataTypes.STRING
 		}
 
 	});
