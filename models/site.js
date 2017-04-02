@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
 				isURL: true
 			}
 		},
-		name: {
+		username: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			len: [2, 254]

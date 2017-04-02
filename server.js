@@ -33,7 +33,7 @@ app.post('/users', function(req,res) {
 	});
 });
 
-app.put('/users/sites/:id', function(user) {
+app.put('/users/sites/:id', function(req, res) {
 	var user = _.pick(req.body, 'name' , 'email', 'password', 'pi', 'pgi');	
 	var sites = _.pick(req.body, 'sites').sites;
 	var faceIds = _.pick(req.body, 'faceIds').faceIds;
@@ -65,10 +65,32 @@ app.put('/users/sites/:id', function(user) {
 		}
 	}).then(function(user){
 		if(user) {
-			user.update()
+			user.update(attributes).then(function(user) {
+				if(appendants.sites) {
+					user.sites.concat(appendants.sites);
+				}
+				if(appendants.faceIds) {
+					user.faceIds.concat(appendants.faceIds);
+				}
+				return user.reload();
+			}).then(function(user){
+				res.json(user);
+			}, function(e) {
+				res.status(500);
+			});
+		}else {
+			res.status(404);
 		}
 	})
 
+});
+
+app.get("/users", function(req, res) {
+	db.user.findAll().then(function(users){
+		res.json(users);
+	}), function(e) {
+		res.status(e);
+	}
 });
 
 db.sequelize.sync({
