@@ -1,3 +1,4 @@
+//Only to be run once, creates the user group "Hackathon Demo"
 function createPersonGroup() = {
 	var params = {
             // Request parameters
@@ -17,14 +18,14 @@ function createPersonGroup() = {
             data: ""
         })
         .done(function(data) {
-            alert("success");
+            return data;
         })
         .fail(function() {
             alert("error");
         });
     }
 }
-
+// Creates a person in the azure api
 function createPerson(name, userId) = {
 	var params = {
             // Request parameters
@@ -43,16 +44,14 @@ function createPerson(name, userId) = {
             data: "{name: " + name  "," "userData: " + userId "}"
         })
         .done(function(data) {
-            alert("success");
+        	return data;
         })
         .fail(function() {
             alert("error");
         });
 }
-
+// Adds a face to a person on the azure api
 function addPersonFace(personId, url) = {
-	var pi;
-        var url;
         var params = {
             // Request parameters
             "personGroupId" : "hackathon_demo",
@@ -71,13 +70,14 @@ function addPersonFace(personId, url) = {
             data: "{body}",
         })
         .done(function(data) {
-            alert("success");
+            return data;
         })
         .fail(function() {
             alert("error");
         });
 }
 
+// Processes an image and returns the face id coressponding to the azure value
 function detectFace(img_path) = {
 	var params = {
             // Request parameters
@@ -94,21 +94,21 @@ function detectFace(img_path) = {
             },
             type: "POST",
             // Request body
-            data: "{url: "+ img_path"}",
+            data: "{url: "+ img_path"}"
         })
         .done(function(data) {
-            alert("success");
+        	return data;
         })
         .fail(function() {
             alert("error");
-        });s
+        });
 }
 
+// Check if the face corresponding to the faceId matches the person 
 function verifyPerson(personId, faceId) {
 	var params = {
             // Request parameters
         };
-      
         $.ajax({
             url: "https://westus.api.cognitive.microsoft.com/face/v1.0/verify?" + $.param(params),
             beforeSend: function(xhrObj){
@@ -118,12 +118,13 @@ function verifyPerson(personId, faceId) {
             },
             type: "POST",
             // Request body
-            data: "{personGroupId : hackathon_demo, faceId}",
+            data: "{personGroupId : hackathon_demo, personId: " + personId + 
+            ", faceId : " + faceId ",}"
         })
         .done(function(data) {
-            alert("success");
+            return data;
         })
-        .fail(function() {
-            alert("error");
+        .fail(function(err) {
+            alert(err);
         });
 }
