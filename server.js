@@ -2,8 +2,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var db = require('./db.js');
 var _ = require('lodash');
+var cors = require('cors');
 
 var app = express();
+app.use(cors());
 var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
