@@ -42,6 +42,7 @@ app.get('/login', function(req, res){
 app.post('/users', function(req,res) {
 	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  	
 	var user = _.pick(req.body, 'name' , 'email', 'password', 'pi', 'pgi');	
 	var sites = _.pick(req.body, 'sites').sites;
 	var faceIds = _.pick(req.body, 'faceIds').faceIds;
