@@ -10,6 +10,8 @@ var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+//********************CORS Fix Attempt*****************************************************
+
 app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -24,6 +26,9 @@ app.get('/', function(req, res, next) {
 app.post('/', function(req, res, next) {
  // Handle the post for this route
 });
+//****************************************************************************************
+
+
 
 app.get('/login', function(req, res){
 	var userId = _.pick(req.body, 'userId');
@@ -49,8 +54,10 @@ app.post('/users', function(req,res) {
 	var userId;
 
 	db.user.create(user).then(function (user) {
-		userId = user.get('id');
-		db.site.create_sites(sites, userId).then(function(){
+		userId = user.get('id');	//userId is used to link user to child objects
+
+		//Promise chain calls class methods create_faceIds and create_sites in database
+		db.site.create_sites(sites, userId).then(function(){ 
 			db.faceId.create_faceIds(faceIds, userId).then(function(){
 				res.json(user.toJSON());
 			},function(err) {
@@ -77,7 +84,7 @@ app.put('/users/sites/:id', function(req, res) {
 	var appendants = {};
 
 	if (user.hasOwnProperty('name')) {
-		attributes.name = user.name;
+		attributes.name = z.name;
 	}
 	if (user.hasOwnProperty('email')) {
 		attributes.email = user.email;
@@ -117,6 +124,7 @@ app.put('/users/sites/:id', function(req, res) {
 	})
 });
 
+//Only meant for testing database in development
 app.get("/users", function(req, res) {
 	db.user.findAll().then(function(users){
 		res.json(users);
@@ -125,9 +133,12 @@ app.get("/users", function(req, res) {
 	}
 });
 
+
+//Initialize and synchronize the database 
 db.sequelize.sync({
 	force: false
 }).then(function() {
+	//Tell Express.js Server to start listening for requests on a port
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
 	});
